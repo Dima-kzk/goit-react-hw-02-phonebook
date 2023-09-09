@@ -1,10 +1,10 @@
-export function ContactsList({ contacts }) {
+import { Contact } from 'components/Contact/Contact';
+
+export function ContactsList({ contacts, onClick }) {
   return (
     <ul>
-      {contacts.map(contact => (
-        <li key={contact.id}>
-          {contact.name}: {contact.number}
-        </li>
+      {contacts.map(({ name, number, id }) => (
+        <Contact key={id} name={name} number={number} onClick={onClick} />
       ))}
     </ul>
   );

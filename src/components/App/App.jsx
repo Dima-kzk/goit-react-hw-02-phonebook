@@ -19,9 +19,24 @@ class App extends Component {
 
   AddContact = (name, number, id) => {
     // this.state.contacts.push({ name, id });
-    this.setState(prevState => ({
-      contacts: [...prevState.contacts, { name, id, number }],
-    }));
+
+    this.setState(prevState => {
+      if (prevState.contacts.map(({ name }) => name).includes(name)) {
+        alert(`${name} is already in contacts`);
+        return;
+      }
+      return {
+        contacts: [...prevState.contacts, { name, id, number }],
+      };
+    });
+  };
+
+  deleteContact = event => {
+    const clickName = event.currentTarget.textContent.split(': ')[0];
+    const contactsWithoutOne = this.state.contacts.filter(
+      ({ name }) => clickName !== name
+    );
+    this.setState({ contacts: contactsWithoutOne });
   };
 
   InputHandle = event => {
@@ -51,7 +66,10 @@ class App extends Component {
         </Section>
         <Section title="Contacts">
           <Filter state={this.state} InputChange={this.InputHandle} />
-          <ContactsList contacts={filter ? this.filterByName() : contacts} />
+          <ContactsList
+            contacts={filter ? this.filterByName() : contacts}
+            onClick={this.deleteContact}
+          />
         </Section>
       </Сentralizer>
     );
