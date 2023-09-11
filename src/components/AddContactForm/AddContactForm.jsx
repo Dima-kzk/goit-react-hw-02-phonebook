@@ -18,9 +18,8 @@ class AddContactForm extends Component {
 
   SubmitHandle = event => {
     event.preventDefault();
-    const { name, number } = event.target.elements;
-    // console.dir(evt.target.elements.name.value);
-    this.props.AddContact(name.value, number.value, nanoid());
+    const { name, number } = this.state;
+    this.props.AddContact(name, number, nanoid());
     this.setState({ name: '', number: '' });
   };
 

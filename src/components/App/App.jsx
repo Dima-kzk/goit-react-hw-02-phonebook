@@ -2,7 +2,7 @@ import { Component } from 'react';
 import AddContactForm from '../AddContactForm/AddContactForm';
 import { Сentralizer } from './App.styled';
 import { ContactsList } from 'components/ContactsList/ContactsList';
-// import { nanoid } from 'nanoid';
+
 import Section from 'components/Section';
 import { Filter } from 'components/Filter/Filter';
 
@@ -18,10 +18,12 @@ class App extends Component {
   };
 
   AddContact = (name, number, id) => {
-    // this.state.contacts.push({ name, id });
-
     this.setState(prevState => {
-      if (prevState.contacts.map(({ name }) => name).includes(name)) {
+      if (
+        prevState.contacts.some(e => {
+          return e.name === name;
+        })
+      ) {
         alert(`${name} is already in contacts`);
         return;
       }
@@ -32,9 +34,9 @@ class App extends Component {
   };
 
   deleteContact = event => {
-    const clickName = event.currentTarget.textContent.split(': ')[0];
+    const clickId = event.target.id;
     const contactsWithoutOne = this.state.contacts.filter(
-      ({ name }) => clickName !== name
+      ({ id }) => clickId !== id
     );
     this.setState({ contacts: contactsWithoutOne });
   };
@@ -47,27 +49,23 @@ class App extends Component {
 
   filterByName = () => {
     const { contacts, filter } = this.state;
-    return contacts.filter(({ name }) =>
-      name.toLowerCase().includes(filter.toLowerCase())
-    );
+    return filter
+      ? contacts.filter(({ name }) =>
+          name.toLowerCase().includes(filter.toLowerCase())
+        )
+      : contacts;
   };
 
   render() {
-    const { filter, contacts } = this.state;
     return (
       <Сentralizer>
         <Section title="Phonebook">
-          <AddContactForm
-            AddContact={this.AddContact}
-            state={this.state}
-            InputChange={this.InputHandle}
-            // onSubmit={this.AddContact}
-          />
+          <AddContactForm AddContact={this.AddContact} />
         </Section>
         <Section title="Contacts">
           <Filter state={this.state} InputChange={this.InputHandle} />
           <ContactsList
-            contacts={filter ? this.filterByName() : contacts}
+            contacts={this.filterByName()}
             onClick={this.deleteContact}
           />
         </Section>
