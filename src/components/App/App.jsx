@@ -34,11 +34,6 @@ class App extends Component {
   };
 
   deleteContact = id => {
-    // const clickId = event.target.id;
-    // const contactsWithoutOne = this.state.contacts.filter(
-    //   ({ id }) => clickId !== id
-    // );
-    // this.setState({ contacts: contactsWithoutOne });
     this.setState(prevState => ({
       contacts: prevState.contacts.filter(contact => contact.id !== id),
     }));
