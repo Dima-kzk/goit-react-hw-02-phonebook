@@ -21,7 +21,7 @@ class App extends Component {
     this.setState(prevState => {
       if (
         prevState.contacts.some(e => {
-          return e.name === name;
+          return e.name.toLowerCase() === name.toLowerCase();
         })
       ) {
         alert(`${name} is already in contacts`);
@@ -33,12 +33,15 @@ class App extends Component {
     });
   };
 
-  deleteContact = event => {
-    const clickId = event.target.id;
-    const contactsWithoutOne = this.state.contacts.filter(
-      ({ id }) => clickId !== id
-    );
-    this.setState({ contacts: contactsWithoutOne });
+  deleteContact = id => {
+    // const clickId = event.target.id;
+    // const contactsWithoutOne = this.state.contacts.filter(
+    //   ({ id }) => clickId !== id
+    // );
+    // this.setState({ contacts: contactsWithoutOne });
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(contact => contact.id !== id),
+    }));
   };
 
   InputHandle = event => {
